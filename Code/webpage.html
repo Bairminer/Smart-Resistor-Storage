@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<body>
+    Currently Selected Resistor Value: <span id="currValue"></span> Ohms<br>
+    Quantity of Currently Selected Resistor: <span id="currCount"></span><br>
+	<button id="connectbutton" onclick="start()">Refresh Data</button>
+    <script type="text/javascript">
+    function start(objButton) {
+        var deviceID = "device_id";
+        var accessToken = "access_token";
+        var baseURL = "https://api.particle.io/v1/devices/"
+
+        var varName = "currValue";
+        requestURL = baseURL + deviceID + "/" + varName + "/?access_token=" + accessToken;
+        $.getJSON(requestURL, function(json) {
+                 document.getElementById("currValue").innerHTML = json.result;
+                 });
+
+        var varName = "currCount";
+        requestURL = baseURL + deviceID + "/" + varName + "/?access_token=" + accessToken;
+        $.getJSON(requestURL, function(json) {
+                 document.getElementById("currCount").innerHTML = json.result;
+                 });
+    }
+    </script>
+  	<form action="https://api.particle.io/v1/devices/device_id/selectValue?access_token=access_token" method="POST">
+	<input type="text" name="args" value="0"><br>
+	<input type="submit" value="Select resistor value">
+	</form>
+
+	<form action="https://api.particle.io/v1/devices/device_id/changeCount?access_token=access_token" method="POST">
+	<input type="text" name="args" value="0"><br>
+	<input type="submit" value="Add/subtract from quantity">
+	</form>
+</body>
+</html>
+
